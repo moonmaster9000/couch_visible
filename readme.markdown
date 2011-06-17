@@ -1,0 +1,107 @@
+# CouchVisible
+
+CouchVisible is a mixin for your CouchRest::Model documents that provides a simple API for specifying the visibility of a document. This comes in handy in content publishing systems where you want to be able to hide and show documents on your website.  
+
+## Installation
+
+It's a gem. Either run `gem install couch_visible` at the command line, or add `gem 'couch_visible'` to your Gemfile.
+
+## Usage
+
+The gem provides a mixin `CouchVisible` for your `CouchRest::Model::Base` derived documents:
+  
+    class Article < CouchRest::Model::Base
+      include CouchVisible
+    end
+
+### Hidden by default
+
+Mixing it into your document will create a boolean "couch_visible" property on your document. By default, documents will be hidden; if you'd prefer your documents to be visible by default, simply use the `visible_by_default?` macro: 
+    
+    class Article < CouchRest::Model::Base
+      include CouchVisible
+      visible_by_default true
+    end
+
+
+### Showing and Hiding Documents
+
+It will also add several you can `show!` and `hide!` the document:
+    
+    a = Article.first
+
+    a.hide! 
+      #==> sets the couch_visible property to false and saves the document 
+
+    a.show!
+      #==> sets the couch_visible property to true and saves the document
+
+You can also ask whether the document is currently `hidden?` or `shown?`:
+    
+    a = Article.first
+    a.hide!   
+    a.shown?  #==> false
+    a.hidden? #==> true
+
+### Fetching Hidden/Shown documents
+
+Lastly, when you mixed `CouchVisible` into your document, a new map/reduce was created for your document that allows you to easily find shown and hidden documents:
+
+    hidden_article = Article.create
+    hidden_article.hide!
+    
+    Article.by_hidden
+    Article.count_hidden
+    Article.by_shown 
+    Article.count_shown
+
+You can use all of the typical options you would normally use in your `view_by`-created methods. 
+
+## CouchPublish / Memories Integration
+
+The `couch_visible` integrates nicely with the `couch_publish` and `memories` gems for versioning / publishing. If you mix `Memories` or `CouchPublish` into your document, then mix `CouchVisible` into it, then `CouchVisible` will create an unversioned `couch_visible` property, so that reverting versions won't unintentionally toggle the visibility of the document.   
+
+For example, let's create a document with several versions, then inspect that state of `couch_visible` after reverting:
+
+    class Article < CouchRest::Model::Base
+      include Publish
+      include CouchVisible
+      
+      property :title
+    end
+
+    a = Article.create :title => "The Mavs spank the Heat"
+    
+    a.hidden? 
+      #==> true
+
+    a.publish!
+
+    a.version
+      #==> 2
+
+
+Our document is published, but hidden. Now let's unhide the document:
+
+    a.show!
+    
+    a.version 
+      #==> 3
+
+Now the document is shown. Presumably, it would start showing up on the website.
+
+Next, let's imagine our editor wanted to make the title more specific. You update the title and republish: 
+
+    a.title
+      #==> "The spank the Heat in game 6"
+
+    a.publish!
+
+The editor's boss wasn't happy with the change; they ask you to revert back to the old title. Here's where it gets interesting. If `memories` had versioned the `couch_visible` boolean property, then reverting back to version `2` would hide the document again. But since `CouchVisible` detected that you were using `Memories` or `CouchPublish`, it created the `couch_visible` property as a non-versioned property.  
+
+    a.published_versions.first.publish! 
+
+    a.hidden?
+      #==> false
+
+So even though you've revert back to version 2, your document is still visible. 
