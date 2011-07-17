@@ -1,6 +1,6 @@
 Then /^the document should be marked as shown$/ do
   @document.shown?.should be(true)
-  @document.visible.should be(true)
+  @document.couch_visible.should be(true)
 end
 
 Given /^a document that is not shown$/ do

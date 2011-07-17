@@ -2,24 +2,24 @@ module CouchVisible
 
   def self.included(base) 
     base.extend ModelClassMethods
-    base.property :visible, TrueClass
+    base.property :couch_visible, TrueClass
     base.view_by :hidden, :map => "
       function(doc){
-        if (doc['couchrest-type'] == '#{base}' && doc.visible == false){
+        if (doc['couchrest-type'] == '#{base}' && doc.couch_visible == false){
           emit(doc['_id'], null);
         }
       }
     ", :reduce => "_count"
     base.view_by :shown, :map => "
       function(doc){
-        if (doc['couchrest-type'] == '#{base}' && doc.visible == true){
+        if (doc['couchrest-type'] == '#{base}' && doc.couch_visible == true){
           emit(doc['_id'], null);
         }
       }
     ", :reduce => "_count"
     
     base.before_create do |doc|
-      doc.visible = doc.class.show_by_default? if doc.visible.nil?
+      doc.couch_visible = doc.class.show_by_default? if doc.couch_visible.nil?
       true
     end
   end
@@ -57,18 +57,18 @@ module CouchVisible
   end
   
   def shown?
-    visible == true
+    couch_visible == true
   end
 
   def hidden?
-    visible != true
+    couch_visible != true
   end
 
   def hide!
-    self.visible = false
+    self.couch_visible = false
   end
 
   def show!
-    self.visible = true
+    self.couch_visible = true
   end
 end

@@ -11,7 +11,7 @@ When /^I call the "([^"]*)" method on the document$/ do |method|
 end
 
 Then /^the document should be marked as hidden$/ do
-  @document.visible.should be(false)
+  @document.couch_visible.should be(false)
   @document.hidden?.should be(true)
 end
 
