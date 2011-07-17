@@ -2,6 +2,7 @@ $LOAD_PATH.unshift './lib'
 
 require 'couch_visible'
 require 'couchrest_model_config'
+require 'memories'
 
 class Document < CouchRest::Model::Base
   include CouchVisible

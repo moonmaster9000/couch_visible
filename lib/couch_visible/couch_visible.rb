@@ -22,6 +22,10 @@ module CouchVisible
       doc.couch_visible = doc.class.show_by_default? if doc.couch_visible.nil?
       true
     end
+
+    if defined?(Memories) && base.ancestors.include?(Memories)
+      base.forget :couch_visible
+    end
   end
 
   module ModelClassMethods
