@@ -44,6 +44,16 @@ module CouchVisible
     def hidden_by_default!
       @visible_by_default = false
     end
+
+    def count_hidden
+      result = by_hidden(:reduce => true)['rows'].first
+      result ? result['value'] : 0
+    end
+
+    def count_shown
+      result = by_shown(:reduce => true)['rows'].first
+      result ? result['value'] : 0
+    end
   end
   
   def shown?

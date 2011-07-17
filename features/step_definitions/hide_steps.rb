@@ -34,7 +34,7 @@ Given /^there are several hidden and visible documents$/ do
   10.times { @shown_documents   << TestDoc.new.tap {|d| d.show!; d.save} }
 end
 
-When /^I call the "by_hidden" method$/ do 
+When /^I call the "by_hidden" method on my document model$/ do 
   @result = TestDoc.by_hidden :reduce => false
 end
 
@@ -47,4 +47,12 @@ Then /^I should not receive the shown documents$/ do
   @shown_documents.collect(&:id).each do |shown_id| 
     @result_ids.include?(shown_id).should be(false)
   end
+end
+
+When /^I call the "count_hidden" method on my document model$/ do
+  @result = TestDoc.count_hidden
+end
+
+Then /^I should receive the count of hidden documents$/ do
+  @result.should == @hidden_documents.count
 end

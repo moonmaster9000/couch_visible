@@ -18,6 +18,12 @@ Feature: Hiding a document
 
   Scenario: Getting the list of all hidden documents
     Given there are several hidden and visible documents
-    When I call the "by_hidden" method
+    When I call the "by_hidden" method on my document model
     Then I should receive the hidden documents
     And I should not receive the shown documents
+
+  @focus
+  Scenario: Getting the count of all hidden documents
+    Given there are several hidden and visible documents
+    When I call the "count_hidden" method on my document model
+    Then I should receive the count of hidden documents

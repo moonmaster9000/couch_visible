@@ -16,11 +16,11 @@ The gem provides a mixin `CouchVisible` for your `CouchRest::Model::Base` derive
 
 ### Hidden by default
 
-Mixing it into your document will create a boolean "couch_visible" property on your document. By default, documents will be hidden; if you'd prefer your documents to be visible by default, simply use the `visible_by_default?` macro: 
+Mixing it into your document will create a boolean "couch_visible" property on your document. By default, documents will be hidden; if you'd prefer your documents to be visible by default, simply use the `shown_by_default!` macro: 
     
     class Article < CouchRest::Model::Base
       include CouchVisible
-      visible_by_default true
+      shown_by_default!
     end
 
 

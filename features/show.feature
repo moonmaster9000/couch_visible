@@ -16,9 +16,14 @@ Feature: Showing a document
     And I call the "shown?" method on the document
     Then I should get true
     
-  @focus
   Scenario: Getting the list of all shown documents
     Given there are several hidden and visible documents
     When I call the "by_shown" method
     Then I should receive the shown documents
     And I should not receive the hidden documents
+
+  @focus
+  Scenario: Getting the count of all shown documents
+    Given there are several hidden and visible documents
+    When I call the "count_shown" method on my document model
+    Then I should receive the count of shown documents

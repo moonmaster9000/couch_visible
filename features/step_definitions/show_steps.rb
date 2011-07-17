@@ -26,3 +26,11 @@ Then /^I should not receive the hidden documents$/ do
   end
 
 end
+
+When /^I call the "count_shown" method on my document model$/ do
+  @result = TestDoc.count_shown
+end
+
+Then /^I should receive the count of shown documents$/ do
+  @result.should == @shown_documents.count
+end
