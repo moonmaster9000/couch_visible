@@ -16,17 +16,28 @@ The gem provides a mixin `CouchVisible` for your `CouchRest::Model::Base` derive
 
 ### Hidden by default
 
-Mixing it into your document will create a boolean "couch_visible" property on your document. By default, documents will be hidden; if you'd prefer your documents to be visible by default, simply use the `shown_by_default!` macro: 
+Mixing it into your document will create a boolean "couch_visible" property on your document. By default, documents will be hidden; if you'd prefer your documents to be visible by default, simply use the `show_by_default!` macro: 
     
     class Article < CouchRest::Model::Base
       include CouchVisible
-      shown_by_default!
+      show_by_default!
+    end
+
+You can also configure this globally:
+  
+    CouchVisible.show_by_default!
+
+Now, all document models that include CouchVisible will be shown by default. They could override the global default by calling "hide_by_default!":
+
+    class Post < CouchRest::Model::Base
+      include CouchVisible
+      hide_by_default!
     end
 
 
 ### Showing and Hiding Documents
 
-It will also add several you can `show!` and `hide!` the document:
+`CouchVisible` lets you toggle the visibility of documents via `show!` and `hide!` methods:
     
     a = Article.first
 

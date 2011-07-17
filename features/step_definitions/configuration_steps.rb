@@ -1,7 +1,7 @@
 Given /^I have edited the global configuration$/ do
-  CouchVisible.visible_by_default?.should be(false)
-  CouchVisible.visible_by_default!
-  CouchVisible.visible_by_default?.should be(true)
+  CouchVisible.show_by_default?.should be(false)
+  CouchVisible.show_by_default!
+  CouchVisible.show_by_default?.should be(true)
 end
 
 When /^I run the following code:$/ do |string|
@@ -9,7 +9,7 @@ When /^I run the following code:$/ do |string|
 end
 
 Then /^the configuration of the CouchVisible gem should be reset to its defaults$/ do
-  CouchVisible.visible_by_default?.should be(false)
+  CouchVisible.show_by_default?.should be(false)
 end
 
 Then /^I should get false$/ do
@@ -41,7 +41,7 @@ Then /^it should be hidden$/ do
 end
 
 Given /^I set the global configuration of CouchVisible to shown by default$/ do
-  CouchVisible.visible_by_default!
+  CouchVisible.show_by_default!
 end
 
 Then /^it should be shown$/ do

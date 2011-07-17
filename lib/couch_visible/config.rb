@@ -1,23 +1,23 @@
 module CouchVisible
   module Config
     def reset!
-      @visible_by_default = false
+      @show_by_default = false
     end
 
-    def visible_by_default?
-      @visible_by_default ||= false
+    def show_by_default?
+      @show_by_default ||= false
     end
 
-    def visible_by_default!
-      @visible_by_default = true
+    def show_by_default!
+      @show_by_default = true
     end
     
-    def hidden_by_default?
-      !(@visible_by_default ||= false)
+    def hide_by_default?
+      !(@show_by_default ||= false)
     end
 
-    def hidden_by_default!
-      @visible_by_default = false
+    def hide_by_default!
+      @show_by_default = false
     end
   end
 end

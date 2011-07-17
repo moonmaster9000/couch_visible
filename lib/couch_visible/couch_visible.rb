@@ -19,30 +19,30 @@ module CouchVisible
     ", :reduce => "_count"
     
     base.before_create do |doc|
-      doc.visible = doc.class.visible_by_default? if doc.visible.nil?
+      doc.visible = doc.class.show_by_default? if doc.visible.nil?
       true
     end
   end
 
   module ModelClassMethods
-    def visible_by_default?
-      unless defined? @visible_by_default
-        CouchVisible.visible_by_default?
+    def show_by_default?
+      unless defined? @show_by_default
+        CouchVisible.show_by_default?
       else
-        @visible_by_default
+        @show_by_default
       end
     end
 
-    def visible_by_default!
-      @visible_by_default = true
+    def show_by_default!
+      @show_by_default = true
     end
     
-    def hidden_by_default?
-      !visible_by_default?
+    def hide_by_default?
+      !show_by_default?
     end
 
-    def hidden_by_default!
-      @visible_by_default = false
+    def hide_by_default!
+      @show_by_default = false
     end
 
     def count_hidden
