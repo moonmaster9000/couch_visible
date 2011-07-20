@@ -11,4 +11,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "couchrest_model_config"
   s.add_development_dependency "memories"
   s.add_dependency "couchrest_model", "~> 1.0.0"
+  s.files = Dir["lib/**/*"] << "VERSION" << "readme.markdown"
+  s.test_files = Dir["features/**/*"]
 end
