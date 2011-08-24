@@ -66,7 +66,7 @@ Lastly, when you mixed `CouchVisible` into your document, a new map/reduce was c
     Article.map_by_shown.get!
     Article.count_by_shown.get!
 
-You can use all of the typical CouchDB options you would normally use in your queries. If you're unfamiliar with this format, checkout the `couch_view` gem, which `couch_visible` depends on: http://github.com/moonmaster9000/couch_visible
+You can use all of the typical CouchDB options you would normally use in your queries. If you're unfamiliar with this format, checkout the `couch_view` gem, which `couch_visible` depends on: http://github.com/moonmaster9000/couch_view
 
 ## CouchPublish / Memories Integration
 
