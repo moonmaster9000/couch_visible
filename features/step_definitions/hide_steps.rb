@@ -34,8 +34,8 @@ Given /^there are several hidden and visible documents$/ do
   10.times { @shown_documents   << TestDoc.new.tap {|d| d.show!; d.save} }
 end
 
-When /^I call the "by_hidden" method on my document model$/ do 
-  @result = TestDoc.by_hidden :reduce => false
+When /^I call the "map_by_hidden" method on my document model$/ do 
+  @result = TestDoc.map_by_hidden!
 end
 
 Then /^I should receive the hidden documents$/ do
@@ -49,8 +49,8 @@ Then /^I should not receive the shown documents$/ do
   end
 end
 
-When /^I call the "count_hidden" method on my document model$/ do
-  @result = TestDoc.count_hidden
+When /^I call the "count_by_hidden" method on my document model$/ do
+  @result = TestDoc.count_by_hidden.get!
 end
 
 Then /^I should receive the count of hidden documents$/ do

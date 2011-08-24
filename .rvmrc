@@ -1,1 +1,1 @@
-rvm rbx-head@couch_visible --create
+rvm default@couch_visible --create

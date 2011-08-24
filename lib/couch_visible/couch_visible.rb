@@ -1,22 +1,17 @@
 module CouchVisible
 
   def self.included(base) 
+    base.send :include, ::CouchView unless base.ancestors.include?(::CouchView)
     base.extend ModelClassMethods
     base.property :couch_visible, TrueClass
-    base.view_by :hidden, :map => "
-      function(doc){
-        if (doc['couchrest-type'] == '#{base}' && doc.couch_visible == false){
-          emit(doc['_id'], null);
-        }
-      }
-    ", :reduce => "_count"
-    base.view_by :shown, :map => "
-      function(doc){
-        if (doc['couchrest-type'] == '#{base}' && doc.couch_visible == true){
-          emit(doc['_id'], null);
-        }
-      }
-    ", :reduce => "_count"
+
+    base.couch_view :by_hidden do
+      map CouchVisible::ByHidden
+    end
+
+    base.couch_view :by_shown do
+      map CouchVisible::ByShown
+    end
     
     base.before_create do |doc|
       doc.couch_visible = doc.class.show_by_default? if doc.couch_visible.nil?
@@ -25,6 +20,10 @@ module CouchVisible
 
     if defined?(Memories) && base.ancestors.include?(Memories)
       base.forget :couch_visible
+    end
+
+    if defined?(::CouchPublish) && base.ancestors.include?(::CouchPublish)
+      base.send :include, CouchVisible::CouchPublish
     end
   end
 

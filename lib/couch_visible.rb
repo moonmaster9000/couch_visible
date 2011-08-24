@@ -1,2 +1,8 @@
+require 'couch_view'
 require 'couch_visible/couch_visible'
+require 'couch_visible/integrations/couch_publish'
+require 'couch_visible/maps/by_hidden'
+require 'couch_visible/maps/by_shown'
+require 'couch_visible/conditions/published'
+require 'couch_visible/conditions/unpublished'
 require 'couch_visible/config'

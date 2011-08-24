@@ -2,7 +2,7 @@ $LOAD_PATH.unshift './lib'
 
 require 'couch_visible'
 require 'couchrest_model_config'
-require 'memories'
+require 'couch_publish'
 
 class Document < CouchRest::Model::Base
   include CouchVisible
@@ -21,4 +21,10 @@ end
 Before do
   Document.database.recreate!
   CouchVisible.reset!
+
+  if defined? Query
+    Object.class_eval do
+      remove_const "Query"
+    end
+  end
 end
