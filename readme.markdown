@@ -61,12 +61,12 @@ Lastly, when you mixed `CouchVisible` into your document, a new map/reduce was c
     hidden_article = Article.create
     hidden_article.hide!
     
-    Article.by_hidden
-    Article.count_hidden
-    Article.by_shown 
-    Article.count_shown
+    Article.map_by_hidden.get!
+    Article.count_by_hidden.get!
+    Article.map_by_shown.get!
+    Article.count_by_shown.get!
 
-You can use all of the typical options you would normally use in your `view_by`-created methods. 
+You can use all of the typical CouchDB options you would normally use in your queries. If you're unfamiliar with this format, checkout the `couch_view` gem, which `couch_visible` depends on: http://github.com/moonmaster9000/couch_visible
 
 ## CouchPublish / Memories Integration
 
@@ -115,4 +115,19 @@ The editor's boss wasn't happy with the change; they ask you to revert back to t
     a.hidden?
       #==> false
 
-So even though you've revert back to version 2, your document is still visible. 
+So even though you've reverted back to version 2, your document is still visible. 
+
+### Filtering your views by published and unpublished
+
+Another nice integration: when you include `CouchVisible` into a model that already includes `CouchPublish`, you'll be able to filter your `map_by_hidden`/`count_by_hidden`/`map_by_shown`/`count_by_shown` queries for `published` and `unpublished` documents: 
+
+    class Article < CouchRest::Model::Base
+      include CouchPublish
+      include CouchVisible
+    end
+
+    Article.map_by_shown.published.get!
+      #==> all of the shown and published Article documents
+    
+    Article.count_by_hidden.unpublished.get!
+      #==> all of the hidden documents that have never been published
