@@ -3,12 +3,12 @@ module CouchVisible
     def self.included(base)
       base.couch_view :by_hidden do
         map CouchVisible::ByHidden
-        conditions ::Published, ::Unpublished
+        conditions CouchVisible::Conditions::Published, CouchVisible::Conditions::Unpublished
       end
 
       base.couch_view :by_shown do
         map CouchVisible::ByShown
-        conditions ::Published, ::Unpublished
+        conditions CouchVisible::Conditions::Published, CouchVisible::Conditions::Unpublished
       end
     end
   end
