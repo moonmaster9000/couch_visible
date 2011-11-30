@@ -50,10 +50,10 @@ end
 a = Article.first
 
 a.hide! 
-  #==> sets the couch_visible property to false and saves the document 
+  #==> sets the couch_visible property to false, but does _not_ save the document 
 
 a.show!
-  #==> sets the couch_visible property to true and saves the document
+  #==> sets the couch_visible property to true, but does _not_ save the document
 ```
 
 You can also ask whether the document is currently `hidden?` or `shown?`:
@@ -72,6 +72,7 @@ Lastly, when you mixed `CouchVisible` into your document, a new map/reduce was c
 ```ruby
 hidden_article = Article.create
 hidden_article.hide!
+hidden_article.save
 
 Article.map_by_hidden.get!
 Article.count_by_hidden.get!
@@ -110,6 +111,7 @@ Our document is published, but hidden. Now let's unhide the document:
 
 ```ruby
 a.show!
+a.save
 
 a.version 
   #==> 3
