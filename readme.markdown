@@ -44,20 +44,26 @@ end
 
 ### Showing and Hiding Documents
 
-`CouchVisible` lets you toggle the visibility of documents via `show!` and `hide!` methods:
+`CouchVisible` lets you toggle the visibility of documents via `show!` and `hide!` (and `show` and `hide` methods):
     
 ```ruby
 a = Article.first
 
 a.hide! 
-  #==> sets the couch_visible property to false, but does _not_ save the document 
+  #==> sets the couch_visible property to false _AND_ saves the document 
 
 a.show!
-  #==> sets the couch_visible property to true, but does _not_ save the document
+  #==> sets the couch_visible property to true _AND_ saves the document
+
+a.hide
+  #==> sets the couch_visible property to false, but does _NOT_ save the document
+
+a.show
+  #==> sets the couch_visible property to true, but does _NOT_ save the document
 ```
 
 You can also ask whether the document is currently `hidden?` or `shown?`:
-    
+ 
 ```ruby
 a = Article.first
 a.hide!   
@@ -111,8 +117,6 @@ Our document is published, but hidden. Now let's unhide the document:
 
 ```ruby
 a.show!
-a.save
-
 a.version 
   #==> 3
 ```
