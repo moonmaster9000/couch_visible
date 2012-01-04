@@ -2,11 +2,18 @@ Feature: Hiding a document
   As a programmer
   I want the ability to hide a document
   So that I can flag a document as hidden
-  
+
   Scenario: Hide a document
-    Given a document that includes CouchVisible
+    Given an unsaved document that includes CouchVisible
+    When I call the "hide" method on the document
+    Then the document should be marked as hidden
+    And the document should not be saved
+
+  Scenario: Hide a document and save it
+    Given an unsaved document that includes CouchVisible
     When I call the "hide!" method on the document
     Then the document should be marked as hidden
+    And the document should be saved
 
   Scenario: Determining if a document is hidden
     Given a document that is shown
