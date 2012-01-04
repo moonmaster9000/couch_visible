@@ -69,9 +69,20 @@ module CouchVisible
 
   def hide!
     self.couch_visible = false
+    self.save!
+  end
+
+  def hide
+    self.couch_visible = false
   end
 
   def show!
     self.couch_visible = true
+    self.save!
   end
+
+  def show
+    self.couch_visible = true
+  end
+
 end

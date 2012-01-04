@@ -4,9 +4,16 @@ Feature: Showing a document
   So that I can flag a document as visible for viewing
 
   Scenario: Show a document
-    Given a document that includes CouchVisible
+    Given an unsaved document that includes CouchVisible
+    When I call the "show" method on the document
+    Then the document should be marked as shown
+    And the document should not be saved
+
+  Scenario: Show a document and save it
+    Given an unsaved document that includes CouchVisible
     When I call the "show!" method on the document
     Then the document should be marked as shown
+    And the document should be saved
 
   Scenario: Determining if a document is shown
     Given a document that is not shown
